@@ -3,7 +3,6 @@ module I18nStrategy
 
   class Initializer
     def self.init(app)
-      # Set I18nStrategy::Strategy::Default as default strategy
       I18nStrategy.strategy ||= I18nStrategy::Strategy::Default
 
       ActiveSupport.on_load(:action_controller) do
@@ -20,7 +19,7 @@ module I18nStrategy
     end
 
     def set_locale
-      ActionController::Base.send(:include, I18nStrategy.strategy)
+      extend(I18nStrategy.strategy)
       I18n.locale = send(I18nStrategy.method_to_detect_locale || :detect_locale)
     end
   end
