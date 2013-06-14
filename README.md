@@ -30,9 +30,15 @@ available languages in your application via
 `initializers/i18n_strategy`:
 
 ```
+# Just for example
 module MyStrategy
   def detect_locale
-    params[:locale]   # just simple and fragile way
+    if params[:local] &&
+       I18nStrategy.available_languages.include?(params[:locale])
+      params[:locale]   # just simple and fragile way
+    else
+      I18n.default_locale
+    end
   end
 end
 
