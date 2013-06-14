@@ -18,7 +18,7 @@ detect and set request users' locale easily.
 
 Add a line below into your `Gemfile`:
 
-```
+```ruby
 gem 'i18n_strategy'
 ```
 
@@ -29,12 +29,11 @@ available languages in your application via
 
 `initializers/i18n_strategy`:
 
-```
+```ruby
 # Just for example
 module MyStrategy
   def detect_locale
-    if params[:local] &&
-       I18nStrategy.available_languages.include?(params[:locale])
+    if params[:local] && I18nStrategy.available_languages.include?(params[:locale])
       params[:locale]   # just simple and fragile way
     else
       I18n.default_locale
