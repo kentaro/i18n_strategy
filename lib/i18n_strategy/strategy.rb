@@ -1,17 +1,17 @@
+require 'http_accept_language/parser'
+
 module I18nStrategy
   module Strategy
-
-    # This strategy is put here for just testing. You should use it
-    # directly, but should implement your own strategy
     module Default
       def detect_locale
-        lang = nil
+        lang      = nil
+        available = I18nStrategy.available_languages || []
 
-        if params[:locale]
+        if params[:locale] && available.include?(params[:locale])
           lang = params[:locale]
         else
-          header = request.env['HTTP_ACCEPT_LANGUAGE'] || ''
-          lang   = header.scan(/^[a-z]{2}/).first
+          parser = HttpAcceptLanguage::Parser.new(request.env['HTTP_ACCEPT_LANGUAGE'])
+          lang   = parser.preferred_language_from(available)
         end
 
         lang || I18n.default_locale

@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_dependency 'rails', '>= 3.0.0'
+  gem.add_dependency 'http_accept_language', '>= 2.0.0pre'
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'

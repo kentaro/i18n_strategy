@@ -1,8 +1,8 @@
 module I18nStrategy
-  mattr_accessor :strategy, :method_to_detect_locale
+  mattr_accessor :strategy, :method_to_detect_locale, :available_languages
 
   class Initializer
-    def self.init
+    def self.init(app)
       # Set I18nStrategy::Strategy::Default as default strategy
       I18nStrategy.strategy ||= I18nStrategy::Strategy::Default
 

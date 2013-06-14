@@ -3,6 +3,7 @@ require 'spec_helper'
 describe RootController do
   before {
     I18nStrategy.strategy = I18nStrategy::Strategy::Default
+    I18nStrategy.available_languages = %w[en ja fr]
   }
 
   describe 'GET /' do
@@ -17,7 +18,7 @@ describe RootController do
     context 'with preferred language' do
       context 'en' do
         before {
-          request.env['HTTP_ACCEPT_LANGUAGE'] = 'en,ja;q=0.8,en-US;q=0.6'
+          request.env['HTTP_ACCEPT_LANGUAGE'] = 'en'
           get :index
         }
 
@@ -28,7 +29,7 @@ describe RootController do
 
       context 'ja' do
         before {
-          request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja,en;q=0.8,en-US;q=0.6'
+          request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
           get :index
         }
 
@@ -39,14 +40,27 @@ describe RootController do
     end
 
     context 'with preferred language from query param' do
-      before {
-        request.env['HTTP_ACCEPT_LANGUAGE'] = 'en,ja;q=0.8,en-US;q=0.6'
-        get :index, :locale => 'fr'
-      }
+      context 'with valid language' do
+        before {
+          request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+          get :index, :locale => 'fr'
+        }
 
-      it {
-        expect(response.body).to be == 'fr'
-      }
+        it {
+          expect(response.body).to be == 'fr'
+        }
+      end
+
+      context 'with invalid language' do
+        before {
+          request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+          get :index, :locale => 'no_such_language'
+        }
+
+        it {
+          expect(response.body).to be == 'ja'
+        }
+      end
     end
 
     context 'with custom strategy' do
