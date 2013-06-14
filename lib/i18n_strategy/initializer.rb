@@ -3,7 +3,7 @@ module I18nStrategy
 
   class Initializer
     def self.init(app)
-      I18nStrategy.strategy ||= I18nStrategy::Strategy::Default
+      I18nStrategy.strategy ||= I18nStrategy::Strategy
 
       ActiveSupport.on_load(:action_controller) do
         ActionController::Base.send(:include, Filter)

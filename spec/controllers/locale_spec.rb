@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RootController do
   before {
-    I18nStrategy.strategy = I18nStrategy::Strategy::Default
+    I18nStrategy.strategy = I18nStrategy::Strategy
     I18nStrategy.available_languages = %w[en ja fr]
   }
 
@@ -15,43 +15,69 @@ describe RootController do
       }
     end
 
-    context 'with preferred language' do
-      context 'en' do
-        before {
-          request.env['HTTP_ACCEPT_LANGUAGE'] = 'en'
-          get :index
-        }
+    context 'with preferred language from HTTP header' do
+      context 'and it is valid' do
+        context 'en (default language)' do
+          before {
+            request.env['HTTP_ACCEPT_LANGUAGE'] = 'en'
+            get :index
+          }
 
-        it {
-          expect(response.body).to be == 'en'
-        }
+          it {
+            expect(response.body).to be == 'en'
+          }
+        end
+
+        context 'ja' do
+          before {
+            request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+            get :index
+          }
+
+          it {
+            expect(response.body).to be == 'ja'
+          }
+        end
       end
 
-      context 'ja' do
-        before {
-          request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
-          get :index
-        }
+      context 'and it is valid' do
+          before {
+            request.env['HTTP_ACCEPT_LANGUAGE'] = 'no_such_language'
+            get :index
+          }
 
-        it {
-          expect(response.body).to be == 'ja'
-        }
+          it {
+            expect(response.body).to be == 'en'
+          }
       end
     end
 
     context 'with preferred language from query param' do
-      context 'with valid language' do
-        before {
-          request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
-          get :index, :locale => 'fr'
-        }
+      context 'and it is valid' do
+        context 'en (default language)' do
+          before {
+            request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+            get :index, :locale => 'en'
+          }
 
-        it {
-          expect(response.body).to be == 'fr'
-        }
+          it {
+            expect(response.body).to be == 'en'
+          }
+        end
+
+        context 'fr' do
+          before {
+            request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+            get :index, :locale => 'fr'
+          }
+
+          it {
+            expect(response.body).to be == 'fr'
+          }
+        end
       end
 
-      context 'with invalid language' do
+      context 'and it is invalid' do
         before {
           request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
           get :index, :locale => 'no_such_language'
@@ -74,9 +100,12 @@ describe RootController do
         end
       end
 
+      before {
+        I18nStrategy.strategy = MyStrategy
+      }
+
       context 'with no preferred method' do
         before {
-          I18nStrategy.strategy = MyStrategy
           get :index
         }
 
@@ -87,7 +116,6 @@ describe RootController do
 
       context 'with preferred method' do
         before {
-          I18nStrategy.strategy = MyStrategy
           I18nStrategy.method_to_detect_locale = :another_detect_locale
           get :index
         }
