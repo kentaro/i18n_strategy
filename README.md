@@ -3,6 +3,17 @@
 i18n_strategy provides a very much simple way to detect and set locale
 in your Rails application.
 
+In
+[i18n section of Rails Guide](http://edgeguides.rubyonrails.org/i18n.html),
+there's a description on Rails i18n API. It's comprehensive and has
+enough information to implement our own locale detection
+strategy. However, it doesn't provide us some automatic way to handle
+users' locale.
+
+I've wanted some easier way to handle it. So I hacked up this library
+which provides a thin wrapper over Rails i18n API and allows you to
+detect and set request users' locale easily.
+
 ## Usage
 
 Add a line below into your `Gemfile`:
