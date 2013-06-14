@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = I18nStrategy::VERSION
   gem.authors       = ["Kentaro Kuribayashi"]
   gem.email         = ["kentarok@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Provides a very much simple way to detect and set locale in your Rails application}
+  gem.summary       = %q{Provides a very much simple way to detect and set locale in your Rails application}
+  gem.homepage      = "https://github.com/kentaro/i18n_strategy"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
