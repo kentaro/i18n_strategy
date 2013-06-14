@@ -24,6 +24,7 @@ module MyStrategy
 end
 
 I18nStrategy.strategy = MyStrategy
+I18nStrategy.available_languages = %w[ja en]
 ```
 
 Users' locale detected by the strategy is automatically set to
@@ -36,19 +37,28 @@ That's all. Very much simple.
 ### I18nStrategy.strategy
 
 Set your own custom strategy module via this method. If not set,
-[default strategy](./lib/i18n_strategy/strategy.rb) will be used. The
-module must implement `detect_locale` method or some other one set by
-`I18nStrategy.method_to_detect_locale` method described below.
+[default strategy](./lib/i18n_strategy/strategy.rb) will be used.
+
+The module must implement `detect_locale` method or some other one set
+by `I18nStrategy.method_to_detect_locale` method described below.
 
 ### I18nStrategy.method_to_detect_locale
 
-A method to be used to detect users' locale (its default is
-`detect_method`) will be called as a instance method of a controller
-which is currently dispatched. That is to say, it can duplicate your
-existing method.
+Set another method instead of default one, `detect_locale`.
+
+The method to be used to detect users' locale will be called as a
+instance method of a controller which is currently dispatched. That is
+to say, it can duplicate your existing method.
 
 In case above, you can set another method name to be called via this
 method.
+
+### I18nStrategy.available_languages
+
+Set available language in your application.
+
+The default strategy utilizes this method to detect whether the
+language from users can be available in your application or not.
 
 ## Contributing
 
