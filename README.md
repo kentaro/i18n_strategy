@@ -34,7 +34,7 @@ available languages in your application via
 module MyStrategy
   def detect_locale
     if params[:local] && I18nStrategy.available_languages.include?(params[:locale])
-      params[:locale]   # just simple and fragile way
+      params[:locale]
     else
       I18n.default_locale
     end
