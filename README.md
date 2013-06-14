@@ -12,7 +12,9 @@ gem 'i18n_strategy'
 ```
 
 Then, set your custom strategy into `I18nStrategy.strategy`, which is
-to detect a locale for a user visiting your application.
+to detect a locale for a user visiting your application, and also set
+available languages in your application via
+`I18nStrategy.available_languages`.
 
 `initializers/i18n_strategy`:
 
