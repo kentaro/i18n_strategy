@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RootController do
   before {
     I18nStrategy.strategy = I18nStrategy::Strategy
-    I18nStrategy.available_languages = %w[en ja fr]
+    I18nStrategy.available_locales = %w[en ja fr]
   }
 
   describe 'GET /' do

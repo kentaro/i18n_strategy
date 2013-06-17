@@ -4,7 +4,7 @@ module I18nStrategy
   module Strategy
     def detect_locale
       lang      = nil
-      available = I18nStrategy.available_languages || []
+      available = I18nStrategy.available_locales || []
 
       if params[:locale] && available.include?(params[:locale])
         lang = params[:locale]

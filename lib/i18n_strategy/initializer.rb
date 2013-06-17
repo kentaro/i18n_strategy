@@ -1,5 +1,5 @@
 module I18nStrategy
-  mattr_accessor :strategy, :method_to_detect_locale, :available_languages
+  mattr_accessor :strategy, :method_to_detect_locale, :available_locales
 
   class Initializer
     def self.init(app)

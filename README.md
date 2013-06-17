@@ -25,7 +25,7 @@ gem 'i18n_strategy'
 Then, set your custom strategy into `I18nStrategy.strategy`, which is
 to detect a locale for a user visiting your application, and also set
 available languages in your application via
-`I18nStrategy.available_languages`.
+`I18nStrategy.available_locales`.
 
 `initializers/i18n_strategy`:
 
@@ -33,7 +33,7 @@ available languages in your application via
 # Just for example
 module MyStrategy
   def detect_locale
-    if params[:local] && I18nStrategy.available_languages.include?(params[:locale])
+    if params[:local] && I18nStrategy.available_locales.include?(params[:locale])
       params[:locale]
     else
       I18n.default_locale
@@ -42,7 +42,7 @@ module MyStrategy
 end
 
 I18nStrategy.strategy = MyStrategy
-I18nStrategy.available_languages = %w[ja en]
+I18nStrategy.available_locales = %w[ja en]
 ```
 
 Users' locale detected by the strategy is automatically set to
@@ -71,9 +71,9 @@ to say, it can duplicate your existing method.
 In case above, you can set another method name to be called via this
 method.
 
-### I18nStrategy.available_languages
+### I18nStrategy.available_locales
 
-Set available language in your application.
+Set available locales in your application.
 
 The default strategy utilizes this method to detect whether the
 language from users can be available in your application or not.
